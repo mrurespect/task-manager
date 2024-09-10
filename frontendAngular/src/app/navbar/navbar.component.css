@@ -1,0 +1,38 @@
+.nav-link {
+  color: #343a40;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+  font-size: 14px;
+}
+
+.nav-link i {
+  font-size: 20px;
+}
+
+.nav-item {
+  margin-right: 15px;
+}
+
+.active-link i {
+  color: #0aad0a;
+}
+
+.nav-link:hover {
+  background-color: #e9ecef;
+  color: #495057;
+  text-decoration: none;
+}
+
+/*
+.active-link:hover {
+  background-color: #0aad0a;
+  color: white;
+}*/
+.navbar-title {
+  color: #343a40; /* Default text color */
+  font-size: 1.5rem; /* Adjust the font size if needed */
+  font-weight: 900; /* Ensures the text is bold */
+  margin-left: 0.5rem; /* Adjusts space to the left */
+  margin-right: 1rem; /* Adjusts space to the right */
+}

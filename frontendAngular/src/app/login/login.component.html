@@ -1,1 +1,22 @@
-<p>login works!</p>
+<div class="container">
+  <div class="w-75 mx-auto py-5 my-5">
+    <h3 class="mx-3">Login Now :</h3>
+    <form (ngSubmit)="handleLogin(loginForm)" [formGroup]="loginForm">
+      <label for="email" class="d-block">
+        <input id="email" type="text" class="form-control py-2 mb-2" placeholder="email" formControlName="email">
+      </label>
+      <label for="password" class="d-block">
+        <input id="password" type="password" class="form-control py-2 mb-2" placeholder="password" formControlName="password">
+      </label>
+      <div class="alert alert-danger" *ngIf="apiError">
+        {{apiError}}
+      </div>
+      <button class="btn btn-primary d-block ms-auto" type="submit">
+        <i class="fas fa-spinner fa-spin" *ngIf="isLoading;else myTemplate"></i>
+        <ng-template #myTemplate>
+          <span>Login</span>
+        </ng-template>
+      </button>
+    </form>
+  </div>
+</div>

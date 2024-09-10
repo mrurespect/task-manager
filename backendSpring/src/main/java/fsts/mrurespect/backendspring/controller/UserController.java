@@ -50,7 +50,7 @@ public class UserController {
             jwtAuthResponse = new JwtAuthResponse();
             jwtAuthResponse.setAccessToken(token);
         }catch (Exception e){
-            throw new UserException("invalid credentials",HttpStatus.BAD_REQUEST);
+            throw new UserException("invalid credentials",HttpStatus.UNAUTHORIZED);
         }
 
         return new ResponseEntity<>(jwtAuthResponse, HttpStatus.OK);
