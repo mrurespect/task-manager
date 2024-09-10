@@ -22,6 +22,10 @@ public class TaskController {
     public Task addTask(@RequestBody Task task){
         return taskService.saveTask(task);
     }
+    @PutMapping("/task")
+    public Task updateTask(@RequestBody Task task){
+        return taskService.saveTask(task);
+    }
     @DeleteMapping("/task")
     public String deleteTask(@RequestBody Task task){
         taskService.deleteTask(task);

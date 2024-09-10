@@ -50,7 +50,7 @@ public List<Task> getTasks() {
 
     @Override
     public Task updateTask(Task task) {
-        return null;
+        return taskRepository.save(task);
     }
 
     @Override

@@ -37,6 +37,7 @@ public class SecurityConfig{
                 .authorizeHttpRequests((requests)-> requests
                         .requestMatchers(HttpMethod.GET,"/tasks","/user-info").authenticated()
                         .requestMatchers(HttpMethod.POST,"/task").authenticated()
+                        .requestMatchers(HttpMethod.PUT,"/task").authenticated()
                         .requestMatchers(HttpMethod.DELETE,"/task").authenticated()
                         .requestMatchers("/login","/register").permitAll()
                 );
