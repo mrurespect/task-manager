@@ -1,1 +1,46 @@
-<p>home works!</p>
+<div class="container my-3">
+  <h3>Add a new Task</h3>
+  <div class="mb-5">
+    <input type="text" [(ngModel)]="newTask.title" placeholder="Task Title" class="form-control mb-2" />
+    <input type="text" [(ngModel)]="newTask.description" placeholder="Task Description" class="form-control mb-2" />
+    <button (click)="addTask()" class="btn btn-primary my-2 mx-3">Add Task</button>
+  </div>
+  <h3>My tasks</h3>
+  <table class="w-100 table table-hover">
+    <thead>
+    <tr>
+      <th>Title</th>
+      <th>Description</th>
+      <th class="text-center">View</th>
+      <th class="text-center">Update</th>
+      <th class="text-center">Delete</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let task of tasks; let i = index">
+      <td>
+        <input type="text"
+               [value]="task.title"
+               [disabled]="(i !== updateIndex) || (!isUpdate)"
+               [class.enabledInput]="(i !== updateIndex) || (!isUpdate)"
+               (input)="onTaskTitleChange($event, task)">
+      </td>
+      <td>
+        <input type="text"
+               [value]="task.description"
+               [disabled]="(i !== updateIndex) || (!isUpdate)"
+               [class.enabledInput]="(i !== updateIndex) || (!isUpdate)"
+               (input)="onTaskDescriptionChange($event, task)">
+      </td>
+      <td class="text-info text-center"><i class="fa-regular fa-eye cursor-pointer"></i></td>
+      <td class="text-primary text-center" [class.d-none]="(i === updateIndex) && (isUpdate)">
+        <i (click)="toggle(i)" class="fa-solid fa-pencil cursor-pointer"></i>
+      </td>
+      <td class="text-primary text-center" [class.d-none]="(i !== updateIndex) || (!isUpdate)">
+        <span (click)="update()" class="cursor-pointer">Save</span>
+      </td>
+      <td class="text-danger text-center"><i (click)="delete(task.id)" class="fa-regular fa-trash-can cursor-pointer"></i></td>
+    </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,3 +1,6 @@
 .text-main{
   color:#09c;
 }
+.cursor-pointer{
+  cursor: pointer;
+}
