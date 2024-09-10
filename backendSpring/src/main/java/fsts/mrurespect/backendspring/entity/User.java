@@ -3,11 +3,12 @@ package fsts.mrurespect.backendspring.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "user")
-@Data @AllArgsConstructor @NoArgsConstructor @ToString
+@Data @AllArgsConstructor @ToString
 public class User {
     @Id
     @Column(name = "id")
@@ -21,6 +22,16 @@ public class User {
     private String password ;
 
     @OneToMany(mappedBy = "user")
-    private List<Task> user ;
+    private List<Task> tasks ;
+
+    public User() {
+        if (tasks==null)tasks=new ArrayList<>();
+    }
+    public void addTask(Task task){
+        tasks.add(task);
+    }
+    public void deleteTask(Task task){
+        tasks.remove(task);
+    }
 
 }
