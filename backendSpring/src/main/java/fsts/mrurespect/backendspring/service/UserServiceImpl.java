@@ -5,6 +5,7 @@ import fsts.mrurespect.backendspring.exception.UserException;
 import fsts.mrurespect.backendspring.repository.UserRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,30 +17,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserService{
+@AllArgsConstructor
+public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final EntityManager entityManager;
     private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository, EntityManager entityManager, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.entityManager = entityManager;
-        this.passwordEncoder = passwordEncoder;
-    }
-
     @Override
-    public User registerUser(User user) {
+    public void registerUser(User user) {
         String hashPwd = passwordEncoder.encode(user.getPassword());
         user.setPassword(hashPwd);
-        if (userRepository.existsUserByEmail(user.getEmail()))throw new UserException("user with email already exist", HttpStatus.CONFLICT);
-        return userRepository.save(user);
-    }
-
-    @Override
-    public User login(User user) {
-        User dbUser =userRepository.getUserByEmailAndPassword(user.getEmail(),user.getPassword());
-        if (dbUser ==null)throw new UserException("invalid credential",HttpStatus.UNAUTHORIZED);
-        return dbUser;
+        if (userRepository.existsUserByEmail(user.getEmail()))
+            throw new UserException("user with email already exist", HttpStatus.CONFLICT);
+        userRepository.save(user);
     }
 
     @Override
@@ -61,16 +51,4 @@ public class UserServiceImpl implements UserService{
         }
         return theUser;
     }
-
-
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userRepository.getUserByEmail(email);
-        if (user == null) {
-            throw new UsernameNotFoundException("Invalid username or password.");
-        }
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);
-    }
-
 }

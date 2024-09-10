@@ -1,7 +1,9 @@
 package fsts.mrurespect.backendspring.controller;
 
+import fsts.mrurespect.backendspring.entity.JwtAuthResponse;
 import fsts.mrurespect.backendspring.entity.User;
 import fsts.mrurespect.backendspring.exception.UserException;
+import fsts.mrurespect.backendspring.service.AuthService;
 import fsts.mrurespect.backendspring.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +19,11 @@ import java.util.List;
 @RestController
 public class UserController {
     private final UserService userService;
+    private final AuthService authService;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, AuthService authService) {
         this.userService = userService;
+        this.authService = authService;
     }
 
     @PostMapping("/register")
@@ -31,14 +35,24 @@ public class UserController {
     public ResponseEntity<List<User>> getUsers() throws UserException {
         return new ResponseEntity<>(userService.getUsers(),HttpStatus.OK);
     }
-   @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody  User user) throws UserException {
-        userService.login(user);
-        return new ResponseEntity<>("logged in successfully",HttpStatus.OK);
-    }
+
     @GetMapping("/user-info")
     public User getUserInfo(@AuthenticationPrincipal UserDetails userDetails) {
         System.out.println(userDetails);
         return userService.findUserByEmail(userDetails.getUsername());
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<JwtAuthResponse> login(@RequestBody User user){
+        JwtAuthResponse jwtAuthResponse = null;
+        try {
+            String token = authService.login(user);
+            jwtAuthResponse = new JwtAuthResponse();
+            jwtAuthResponse.setAccessToken(token);
+        }catch (Exception e){
+            throw new UserException("invalid credentials",HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(jwtAuthResponse, HttpStatus.OK);
     }
 }
