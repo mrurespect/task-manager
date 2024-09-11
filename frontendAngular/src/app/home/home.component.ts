@@ -32,6 +32,7 @@ export class HomeComponent implements OnInit{
 
   ngOnInit(): void {
     this.fetchTasks();
+    console.log(32237)
   }
 
   fetchTasks(): void {

@@ -29,11 +29,11 @@ export class LoginComponent {
 
   }
 
-  handleLogin(loginForm: FormGroup){
+   handleLogin(loginForm: FormGroup){
     this.isLoading=true;
     this._AuthService.login(loginForm.value).subscribe({
-      next:(responce)=>{
-        localStorage.setItem("userToken",responce?.accessToken)
+      next:async (responce) => {
+        await localStorage.setItem("userToken", responce?.accessToken)
         this._TaskService.getTasks().subscribe()
         this._Router.navigate(['/home']);
         this._AuthService.isLogged.next(true)

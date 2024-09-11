@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable, OnInit} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
 
@@ -9,14 +9,18 @@ export class TaskService {
   token:any=null;
   headers :any=null;
   constructor(private _HttpClient:HttpClient) {
-
+    this.fetchToken();
+  }
+  fetchToken(){
     this.token = localStorage.getItem('userToken');
     this.headers = new HttpHeaders({
       Authorization: `Bearer ${this.token}`,
     });
   }
 
+
   getTasks():Observable<any>{
+    this.fetchToken();
     return this._HttpClient.get(
       "http://localhost:8080/tasks",
       {
