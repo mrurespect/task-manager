@@ -54,11 +54,14 @@ public List<Task> getTasks() {
     }
 
     @Override
-    public void deleteTask(Task task) {
+    public void deleteTask(int id) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Task task=new Task();
+        task.setId(id);
         if (principal instanceof UserDetails) {
             String username = ((UserDetails)principal).getUsername();
             User authUser = userRepository.getUserByEmail(username);
+
             authUser.deleteTask(task);
             userRepository.save(authUser);
         }else {

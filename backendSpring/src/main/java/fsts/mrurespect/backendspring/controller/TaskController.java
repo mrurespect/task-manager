@@ -2,6 +2,7 @@ package fsts.mrurespect.backendspring.controller;
 
 import fsts.mrurespect.backendspring.entity.Task;
 import fsts.mrurespect.backendspring.service.TaskService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,9 +27,10 @@ public class TaskController {
     public Task updateTask(@RequestBody Task task){
         return taskService.saveTask(task);
     }
-    @DeleteMapping("/task")
-    public String deleteTask(@RequestBody Task task){
-        taskService.deleteTask(task);
-        return "task deleted successfully";
+    @DeleteMapping("/task/{id}")
+    public ResponseEntity<Void> deleteTask(@PathVariable int id) {
+        taskService.deleteTask(id);
+        return ResponseEntity.ok().build();
     }
+
 }

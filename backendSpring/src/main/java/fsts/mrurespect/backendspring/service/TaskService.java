@@ -9,5 +9,5 @@ public interface TaskService {
     List<Task> getTasks();
     Task saveTask(Task task);
     Task updateTask(Task task);
-    void deleteTask(Task task);
+    void deleteTask(int id);
 }

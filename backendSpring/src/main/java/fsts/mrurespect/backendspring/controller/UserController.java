@@ -1,5 +1,6 @@
 package fsts.mrurespect.backendspring.controller;
 
+import fsts.mrurespect.backendspring.entity.ApiResponse;
 import fsts.mrurespect.backendspring.entity.JwtAuthResponse;
 import fsts.mrurespect.backendspring.entity.User;
 import fsts.mrurespect.backendspring.exception.UserException;
@@ -27,10 +28,12 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody  User user) throws UserException {
+    public ResponseEntity<ApiResponse> register(@RequestBody User user) throws UserException {
         userService.registerUser(user);
-        return new ResponseEntity<>("account created successfully",HttpStatus.CREATED);
+        ApiResponse response = new ApiResponse("account created successfully");
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
     @GetMapping("/")
     public ResponseEntity<List<User>> getUsers() throws UserException {
         return new ResponseEntity<>(userService.getUsers(),HttpStatus.OK);
