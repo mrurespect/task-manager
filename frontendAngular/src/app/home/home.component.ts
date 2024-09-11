@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {TaskService} from "../task.service";
 import {JsonPipe, NgForOf, NgIf, NgStyle} from "@angular/common";
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-home',
@@ -24,15 +25,23 @@ export class HomeComponent implements OnInit{
 
   updatedTask: any = {};
   newTask: any = { title: '', description: '' };
-  constructor(private _TaskService :TaskService) {
+  constructor(private _TaskService :TaskService, private route: ActivatedRoute) {
+    this.ngOnInit()
   }
 
+
   ngOnInit(): void {
-    this._TaskService.getTasks().subscribe({
-      next:(data)=>this.tasks=data,
-      error:(err)=>console.log(err)
-    })
+    this.fetchTasks();
   }
+
+  fetchTasks(): void {
+    this._TaskService.getTasks().subscribe({
+      next: (data) => this.tasks = data,
+      error: (err) => console.log(err)
+    });
+  }
+
+
   delete(id:number){
     this._TaskService.deleteTask(id).subscribe(()=>{
       this.ngOnInit();
@@ -56,6 +65,10 @@ export class HomeComponent implements OnInit{
     if (this.updateIndex !== -1 && this.isUpdate) {
       this.updatedTask.description = event.target.value;
     }
+    const textarea = event.target as HTMLTextAreaElement;
+      task.description = textarea.value;
+      textarea.style.height = 'auto';
+      textarea.style.height = `${textarea.scrollHeight}px`;
   }
   update(): void {
     if (this.updateIndex !== -1 && this.isUpdate) {

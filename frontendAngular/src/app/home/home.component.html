@@ -7,39 +7,45 @@
   </div>
   <h3>My tasks</h3>
   <table class="w-100 table table-hover">
-    <thead>
+    <thead *ngIf="tasks.length!==0;else emptyTemplate">
     <tr>
-      <th>Title</th>
-      <th>Description</th>
-      <th class="text-center">View</th>
-      <th class="text-center">Update</th>
-      <th class="text-center">Delete</th>
+      <th class="w-25" colspan="1">Title</th>
+      <th colspan="4">Description</th>
+      <th colspan="1" class="text-center">Update</th>
+      <th colspan="1" class="text-center">Delete</th>
     </tr>
     </thead>
+    <ng-template #emptyTemplate><p class="mx-3 text-muted">your tasks list is empty !</p></ng-template>
     <tbody>
     <tr *ngFor="let task of tasks; let i = index">
-      <td>
+      <td colspan="1" style="width: fit-content">
         <input type="text"
                [value]="task.title"
                [disabled]="(i !== updateIndex) || (!isUpdate)"
                [class.enabledInput]="(i !== updateIndex) || (!isUpdate)"
                (input)="onTaskTitleChange($event, task)">
       </td>
-      <td>
-        <input type="text"
-               [value]="task.description"
-               [disabled]="(i !== updateIndex) || (!isUpdate)"
-               [class.enabledInput]="(i !== updateIndex) || (!isUpdate)"
-               (input)="onTaskDescriptionChange($event, task)">
+      <td colspan="4">
+   <textarea
+     type="text"
+     rows="2"
+     minlength="5"
+     maxlength="200"
+     class="w-100"
+     [value]="task.description"
+     [disabled]="(i !== updateIndex) || (!isUpdate)"
+     [class.enabledInput]="(i !== updateIndex) || (!isUpdate)"
+     style="overflow: auto; resize: none; max-height: 150px;"
+     (input)="onTaskDescriptionChange($event, task)">
+  </textarea>
       </td>
-      <td class="text-info text-center"><i class="fa-regular fa-eye cursor-pointer"></i></td>
-      <td class="text-primary text-center" [class.d-none]="(i === updateIndex) && (isUpdate)">
+      <td colspan="1" class="text-primary text-center" [class.d-none]="(i === updateIndex) && (isUpdate)">
         <i (click)="toggle(i)" class="fa-solid fa-pencil cursor-pointer"></i>
       </td>
-      <td class="text-primary text-center" [class.d-none]="(i !== updateIndex) || (!isUpdate)">
+      <td colspan="1" class="text-primary text-center" [class.d-none]="(i !== updateIndex) || (!isUpdate)">
         <span (click)="update()" class="cursor-pointer">Save</span>
       </td>
-      <td class="text-danger text-center"><i (click)="delete(task.id)" class="fa-regular fa-trash-can cursor-pointer"></i></td>
+      <td colspan="1" class="text-danger text-center"><i (click)="delete(task.id)" class="fa-regular fa-trash-can cursor-pointer"></i></td>
     </tr>
     </tbody>
   </table>

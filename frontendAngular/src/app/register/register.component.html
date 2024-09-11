@@ -1,1 +1,30 @@
-<p>register works!</p>
+ <div class="w-75 mx-auto py-4">
+  <h4>Register Now</h4>
+  <form (ngSubmit)="handleRegister(registerForm)" [formGroup]="registerForm">
+    <label for="email"> email:</label>
+    <input type="email" class="form-control mb-2" formControlName="email" id="email">
+    <div class="alert alert-danger"  *ngIf="registerForm.get('email')?.errors && registerForm.get('email')?.touched">
+      <p class="m-0" *ngIf="registerForm.get('email')?.getError('email')">Email invalid</p>
+      <p class="m-0" *ngIf="registerForm.get('email')?.getError('required')">Email is required</p>
+    </div>
+    <label for="password"> password:</label>
+    <input type="password" class="form-control mb-2" formControlName="password" id="password">
+    <div class="alert alert-danger"  *ngIf="registerForm.get('password')?.errors && registerForm.get('password')?.touched">
+      <p class="m-0" *ngIf="registerForm.get('password')?.getError('pattern')">Password must start with an upper case letter</p>
+      <p class="m-0" *ngIf="registerForm.get('password')?.getError('required')">Password is required</p>
+    </div>
+    <div class="alert alert-danger" *ngIf="apiError">
+      {{apiError}}
+    </div>
+    <div *ngIf="apiMessage" class="alert alert-success">
+      {{ apiMessage }}
+    </div>
+    <button [disabled]="registerForm.invalid" class="btn btn-primary border-0  ms-auto d-block" type="submit">
+      <i *ngIf="isLoading;else mytemplate" class="fas fa-spinner fa-spin"></i>
+      <ng-template  #mytemplate>
+        <span>Register</span>
+      </ng-template>
+    </button>
+  </form>
+
+</div>

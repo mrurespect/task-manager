@@ -3,6 +3,7 @@ import {NgIf} from "@angular/common";
 import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
 import {AuthService} from "../auth.service";
 import {Router} from "@angular/router";
+import {TaskService} from "../task.service";
 
 @Component({
   selector: 'app-login',
@@ -24,7 +25,8 @@ export class LoginComponent {
   })
 
 
-  constructor(private _AuthService:AuthService,private _Router:Router) {
+  constructor(private _AuthService:AuthService,private _TaskService:TaskService,private _Router:Router) {
+
   }
 
   handleLogin(loginForm: FormGroup){
@@ -32,7 +34,8 @@ export class LoginComponent {
     this._AuthService.login(loginForm.value).subscribe({
       next:(responce)=>{
         localStorage.setItem("userToken",responce?.accessToken)
-        this._Router.navigate(["/home"])
+        this._TaskService.getTasks().subscribe()
+        this._Router.navigate(['/home']);
         this._AuthService.isLogged.next(true)
       },
       error:(err)=>{

@@ -25,4 +25,10 @@ export class AuthService {
     this._Router.navigate(["/login"]);
   }
 
+  register(userData:Object):Observable<any>{
+    return this._HttpClient.post(
+      "http://localhost:8080/register",userData
+    );
+  }
+
 }
